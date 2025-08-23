@@ -13,6 +13,10 @@ function SignupPage() {
 
     if (fullname && username && email && password) {
         alert("Account created. You can now login.");
+
+        // Save user info (to use in the dashboard)
+        localStorage.setItem("fullname", fullname);
+
         navigate("/login");
     } else {
         alert("Please fill in all fields.")
@@ -66,6 +70,18 @@ function SignupPage() {
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
         />
+        <input type="file" accept="image/*" onChange={(e) => {
+          const file = e.target.files[0];
+          
+          if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              localStorage.setItem("profilePic", reader.result);
+            }
+            reader.readAsDataURL(file);
+          }
+        }} />
+
         <div className="flex justify-center items-center m-[1rem]">
           <button
             type="submit"
