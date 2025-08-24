@@ -12,25 +12,30 @@ function SignupPage() {
     e.preventDefault();
 
     if (fullname && username && email && password) {
-        alert("Account created. You can now login.");
+      alert("Account created. You can now login.");
 
-        // Save user info (to use in the dashboard)
-        localStorage.setItem("fullname", fullname);
+      // Save user info (to use in the dashboard)
+      localStorage.setItem("fullname", fullname);
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
 
-        navigate("/login");
+      navigate("/login");
     } else {
-        alert("Please fill in all fields.")
+      alert("Please fill in all fields.");
     }
-     // Reset the form fields back to empty after submit
+    // Reset the form fields back to empty after submit
     setFullname("");
     setUsername("");
     setEmail("");
     setPassword("");
-  }
+  };
 
   return (
     <div>
-      <form onSubmit={handleSignup} className="max-w-[40%] mx-auto mt-[3rem] px-4 pt-8 pb-15 border-gray-400 border-solid border-1 rounded-2xl font-sans">
+      <form
+        onSubmit={handleSignup}
+        className="max-w-[40%] mx-auto mt-[3rem] px-4 pt-8 pb-15 border-gray-400 border-solid border-1 rounded-2xl font-sans"
+      >
         <h1 className="text-center text-3xl font-serif mb-7">Create Account</h1>
         <label className="label">Name</label>
         <input
@@ -70,17 +75,21 @@ function SignupPage() {
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
         />
-        <input type="file" accept="image/*" onChange={(e) => {
-          const file = e.target.files[0];
-          
-          if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              localStorage.setItem("profilePic", reader.result);
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+
+            if (file) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                localStorage.setItem("profilePic", reader.result);
+              };
+              reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
-          }
-        }} />
+          }}
+        />
 
         <div className="flex justify-center items-center m-[1rem]">
           <button
@@ -126,7 +135,10 @@ function SignupPage() {
 
         <p className="mt-5 text-center">
           Already have an account?{" "}
-          <span onClick={() => navigate("/Login")} className="text-blue-500 cursor-pointer hover:underline">
+          <span
+            onClick={() => navigate("/login")}
+            className="text-blue-500 cursor-pointer hover:underline"
+          >
             Login
           </span>
         </p>

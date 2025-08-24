@@ -1,47 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import WorkoutLog from "./WorkoutLog";
 
 function Dashboard() {
-  const [userName, setUserName] = useState("");
-  const [profilePic, setProfilePic] = useState("");
-
-  useEffect(() => {
-    const storedName = localStorage.getItem("fullname");
-    const storedPic = localStorage.getItem("profilePic");
-
-    if (storedName) setUserName(storedName);
-    if (storedPic) setProfilePic(storedPic);
-  }, []);
+  const fullname = localStorage.getItem("fullname");
+  const profilePic = localStorage.getItem("profilePic");
 
   return (
-    <div className="dashboard-container">
-      <div className="user-header w-[60px] h-[60px] rounded-[50%]">
-        {profilePic ? (
-          <img src={profilePic} alt="Profile-image" />
-        ) : (
-          <div className=" flex justify-center items-center text-2xl text-white w-[60px] h-[60px] rounded-[50%] bg-[#ccc]">
-            {userName ? userName.charAt(0).toUpperCase() : "U"}
-          </div>
+    <div style={{ padding: "20px" }}>
+      {/* User Info */}
+      <div style={{ marginBottom: "20px" }}>
+        <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>
+          Welcome, {fullname || "User"}!
+        </h1>
+        {profilePic && (
+          <img
+            src={profilePic}
+            alt="Profile"
+            style={{
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+              border: "2px solid #ccc",
+            }}
+          />
         )}
-        <h1>Welcome, {userName ? userName : "User"}</h1>
       </div>
-      <h2>Fitness Dashboard</h2>
 
-      <section className="dashboard-section">
-        <h3>Quick Workout Log</h3>
-        <WorkoutLog isDashboardView={true} />
-      </section>
+      {/* Recent Workouts */}
+      <h2 style={{ marginBottom: "10px" }}>Here’s a quick view of your recent workouts:</h2>
+      <WorkoutLog isDashboardView={true} />
 
-      <section className="dashboard-section">
-        <h3>Recent Workout History</h3>
-        <WorkoutHistory isDashboardView={true} />
-      </section>
-
-      <section className="dashboard-section">
-        <h3>Your Progress</h3>
-        <ProgressChart isDashboardView={true} />
-      </section>
+      {/* Navigate to full log */}
+      <div style={{ marginTop: "20px" }}>
+        <Link to="/workout-log" style={{ color: "blue", textDecoration: "underline" }}>
+          View Full Workout Log
+        </Link>
+      </div>
     </div>
   );
 }
 
 export default Dashboard;
+

@@ -9,16 +9,19 @@ function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const loggedIn = localStorage.getItem("isLoggedIn"); //get login state
-
+    // Basic validation
     if (username.trim() !== "" && password.trim() !== "") {
-      localStorage.setItem("isLoggedIn", "true"); // Save login state if user inputs are valid
-      navigate("/Dashboard");
+      // Save user info (optional) and login status in localStorage
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("username", username);
+
+      // Navigate to dashboard after login
+      navigate("/dashboard");
     } else {
-      if (loggedIn !== "true") {
-        alert("Please Login with your username and password!");
-      }
+      alert("Please enter both username and password!");
     }
+
+    // Reset form fields
     setUsername("");
     setPassword("");
   };
@@ -31,10 +34,11 @@ function LoginPage() {
       >
         <div className="text-center leading-[1.6]">
           <h1 className="text-4xl w-[60%] mx-auto font-serif mb-3">
-            Track Your Fitness Progress{" "}
+            Track Your Fitness Progress
           </h1>
           <p>Login your workout and track your activity</p>
         </div>
+
         <div className="mt-10">
           <input
             type="text"
@@ -45,12 +49,13 @@ function LoginPage() {
           />
           <input
             type="password"
-            value=""
+            value={password}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             className="input-field"
           />
         </div>
+
         <div className="flex justify-center items-center m-[1rem]">
           <button
             type="submit"
@@ -81,7 +86,7 @@ function LoginPage() {
               alt="google-logo"
               className="social-media-logo"
             />
-            Sign up with Facebook
+            Sign up with Google
           </button>
           <button type="button">
             <img
@@ -96,7 +101,7 @@ function LoginPage() {
         <p className="mt-5 text-center">
           Don't have an account?{" "}
           <span
-            onClick={() => navigate("/Signup")}
+            onClick={() => navigate("/signup")}
             className="text-blue-500 cursor-pointer hover:underline"
           >
             Sign Up
