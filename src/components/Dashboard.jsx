@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import WorkoutLog from "./WorkoutLog";
 import WorkoutHistory from "./WorkoutHistory";
 import { fetchExercisesWithInfo } from "../services/wgerApi";
@@ -10,6 +10,8 @@ function Dashboard() {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [workoutHistory, setWorkoutHistory] = useState([]);
+
+  const navigate = useNavigate(); 
 
   // Load recent exercises (WorkoutLog)
   useEffect(() => {
@@ -27,6 +29,11 @@ function Dashboard() {
     load();
   }, []);
 
+  // logout handler
+  const handleLogout = () => {
+    localStorage.clear(); // remove all user data
+    navigate("/"); // redirect to HomePage
+  };
   // Load Workout History from localStorage
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("completedWorkouts")) || [];
@@ -36,17 +43,27 @@ function Dashboard() {
   return (
     <div className="p-[20px]">
       {/* User Info */}
-      <div className="mb-[20px]">
-        <h1 className="text-[24px] mb-[10px] font-bold">
-          Welcome, {fullname || "User"}!
-        </h1>
-        {profilePic && (
-          <img
-            src={profilePic}
-            alt="Profile"
-            className="w-[100px] h-[100px] rounded-[50%] border-[2px] border-white border-solid"
-          />
-        )}
+      <div className="mb-[20px] flex justify-between items-center">
+        <div>
+          <h1 className="text-[24px] mb-[10px] font-bold">
+            Welcome, {fullname || "User"}!
+          </h1>
+          {profilePic && (
+            <img
+              src={profilePic}
+              alt="Profile"
+              className="w-[100px] h-[100px] rounded-[50%] border-[2px] border-white border-solid"
+            />
+          )}
+        </div>
+
+        {/* Logout button */}
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
+        >
+          Logout
+        </button>
       </div>
 
       {/* Recent Workouts */}
