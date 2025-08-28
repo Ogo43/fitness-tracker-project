@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WorkoutLog from "./WorkoutLog";
+import WorkoutHistory from "./WorkoutHistory";
 import { fetchExercisesWithInfo } from "../services/wgerApi";
 
 function Dashboard() {
@@ -8,7 +9,9 @@ function Dashboard() {
   const profilePic = localStorage.getItem("profilePic");
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [workoutHistory, setWorkoutHistory] = useState([]);
 
+  // Load recent exercises (WorkoutLog)
   useEffect(() => {
     const load = async () => {
       try {
@@ -22,6 +25,12 @@ function Dashboard() {
       }
     };
     load();
+  }, []);
+
+  // Load Workout History from localStorage
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("completedWorkouts")) || [];
+    setWorkoutHistory(saved);
   }, []);
 
   return (
@@ -41,26 +50,50 @@ function Dashboard() {
       </div>
 
       {/* Recent Workouts */}
-      <h2 className="mb-[10px]">Here’s a quick view of your recent workouts:</h2>
-
+      <h2 className="mb-[10px] font-semibold">Here’s a quick view of your recent workouts:</h2>
       {loading ? (
         <p className="text-gray-500">Loading exercises…</p>
       ) : (
-        // Slice to 2 here and pass down
         <WorkoutLog isDashboardView={true} exercises={exercises.slice(0, 2)} />
       )}
 
       {/* Navigate to full log */}
-      <div className="mt-[20px]">
+      <div className="mt-[10px]">
         <Link to="/workout-log" className="text-blue-600 underline">
           View Full Workout Log
         </Link>
+      </div>
+
+      {/* Recent Workout History */}
+      <div className="mt-[30px]">
+        <h2 className="mb-[10px] font-semibold">Recent Workout History:</h2>
+        {workoutHistory.length === 0 ? (
+          <p className="text-gray-500">No completed workouts yet.</p>
+        ) : (
+          <ul className="space-y-3">
+            {workoutHistory.slice(-2).reverse().map((workout, index) => (
+              <li key={index} className="p-3 border rounded-lg shadow-sm bg-gray-50">
+                <strong className="block text-lg">{workout.name}</strong>
+                <em className="block text-sm text-gray-600">{workout.description}</em>
+                <span className="block text-xs text-gray-400">{workout.date}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* Navigate to full history */}
+        <div className="mt-[10px]">
+          <Link to="/workout-history" className="text-blue-600 underline">
+            View Full Workout History
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
 
 export default Dashboard;
+
 
 
 

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { fetchExercisesWithInfo } from "../services/wgerApi";
 
-const WorkoutLog = ({ exercises: injectedExercises = null, isDashboardView = false }) => {
+const WorkoutLog = ({
+  exercises: injectedExercises = null,
+  isDashboardView = false,
+}) => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [log, setLog] = useState({});
+  const [, setCompletedWorkouts] = useState([
+    () => JSON.parse(localStorage.getItem("completedWorkouts")) || [],
+  ]);
 
   // Load saved log from localStorage
   useEffect(() => {
@@ -33,6 +39,10 @@ const WorkoutLog = ({ exercises: injectedExercises = null, isDashboardView = fal
     };
 
     loadExercises();
+
+    // Load completed workouts from localStorage
+    const saved = JSON.parse(localStorage.getItem("completedWorkouts")) || [];
+    setCompletedWorkouts(saved);
   }, [injectedExercises]);
 
   // Persist log changes
@@ -50,29 +60,52 @@ const WorkoutLog = ({ exercises: injectedExercises = null, isDashboardView = fal
     }));
   };
 
-  if (loading) return <p className="text-center text-gray-500">Loading exercises...</p>;
+  const handleCompleteWorkout = (exercise) => {
+    if (!exercise || !exercise.name) {
+      alert("Workout details missing, cannot mark as complete.");
+      return;
+    }
+
+    const completedWorkout = {
+      id: exercise.id || Date.now(),
+      name: exercise.name,
+      description: exercise.description || "No description available",
+      date: new Date().toLocaleString(),
+    };
+
+    const saved = JSON.parse(localStorage.getItem("completedWorkouts")) || [];
+    saved.push(completedWorkout);
+    localStorage.setItem("completedWorkouts", JSON.stringify(saved));
+
+    alert(`Workout "${exercise.name}" marked as complete!`);
+  };
+
+  if (loading)
+    return <p className="text-center text-gray-500">Loading exercises...</p>;
 
   // Prefer injected list (from Dashboard), otherwise use fetched list
-  const displayed = Array.isArray(injectedExercises) && injectedExercises.length > 0
-    ? injectedExercises
-    : exercises;
+  const displayed =
+    Array.isArray(injectedExercises) && injectedExercises.length > 0
+      ? injectedExercises
+      : exercises;
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4 text-center">
-        {isDashboardView ? "Recent Workouts" : "Workout Log"}
+        {isDashboardView ? " Workout Logs" : "Workout Log"}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {displayed.length > 0 ? (
           displayed.map((exercise) => {
-            const englishTranslation = exercise.translations?.find((t) => t.language === 2);
+            const englishTranslation = exercise.translations?.find(
+              (t) => t.language === 2
+            );
             const name =
               englishTranslation?.name || exercise.name || "Unnamed Exercise";
-            const description =
-              englishTranslation?.description
-                ? englishTranslation.description.replace(/<[^>]+>/g, "")
-                : "No description available";
+            const description = englishTranslation?.description
+              ? englishTranslation.description.replace(/<[^>]+>/g, "")
+              : "No description available";
             const userLog = log[exercise.id] || { sets: "", reps: "" };
 
             return (
@@ -88,7 +121,8 @@ const WorkoutLog = ({ exercises: injectedExercises = null, isDashboardView = fal
 
                 {exercise.equipment?.length > 0 && (
                   <p className="text-sm text-gray-500 mb-2">
-                    Equipment: {exercise.equipment.map((e) => e.name).join(", ")}
+                    Equipment:{" "}
+                    {exercise.equipment.map((e) => e.name).join(", ")}
                   </p>
                 )}
 
@@ -126,6 +160,21 @@ const WorkoutLog = ({ exercises: injectedExercises = null, isDashboardView = fal
                     />
                   </div>
                 )}
+                {/* Complete Button */}
+                {!isDashboardView && (
+                  <button
+                    className="bg-green-500 text-white px-3 py-1 rounded mt-5"
+                    onClick={() =>
+                      handleCompleteWorkout({
+                        ...exercise,
+                        name,
+                        description,
+                      })
+                    }
+                  >
+                    Complete Workout
+                  </button>
+                )}
               </div>
             );
           })
@@ -138,4 +187,3 @@ const WorkoutLog = ({ exercises: injectedExercises = null, isDashboardView = fal
 };
 
 export default WorkoutLog;
-
