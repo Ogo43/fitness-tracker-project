@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchExercisesWithInfo } from "../services/wgerApi";
+import Dashboard from "./Dashboard";
+import { Link } from "react-router-dom";
 
 const WorkoutLog = ({
   exercises: injectedExercises = null,

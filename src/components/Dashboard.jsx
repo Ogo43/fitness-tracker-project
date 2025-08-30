@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import WorkoutLog from "./WorkoutLog";
 import WorkoutHistory from "./WorkoutHistory";
+import ProgressChart from "./ProgressChart";
 import { fetchExercisesWithInfo } from "../services/wgerApi";
 
 function Dashboard() {
@@ -102,6 +103,14 @@ function Dashboard() {
         <div className="mt-[10px]">
           <Link to="/workout-history" className="text-blue-600 underline">
             View Full Workout History
+          </Link>
+        </div>
+
+        {/* Navigate to progress chart page */}
+        <div className="mt-[10px]">
+          <h4 className="font-bold my-3">Check out your progress so far:</h4>
+          <Link to="/progress" className="text-blue-600 underline">
+            View Your Progress
           </Link>
         </div>
       </div>

@@ -5,6 +5,7 @@ import LoginPage from "./components/LoginPage";
 import Dashboard from "./components/Dashboard";
 import WorkoutLog from "./components/WorkoutLog";
 import WorkoutHistory from "./components/WorkoutHistory";
+import ProgressChart from "./components/ProgressChart";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/workout-log" element={<WorkoutLog />} />
         <Route path="/workout-history" element={<WorkoutHistory />} />
+        <Route path="/progress" element={<ProgressChart />} />
       </Routes>
     </Router>
   );
