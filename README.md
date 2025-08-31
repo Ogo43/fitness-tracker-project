@@ -1,12 +1,58 @@
-# React + Vite
+# 🏋️ Fitness Tracker App    
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple yet powerful **React-based fitness tracking application** that helps users log workouts, explore exercises, and monitor progress.  
 
-Currently, two official plugins are available:
+This app is designed for fitness enthusiasts who want to stay consistent with their training and track performance over time.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Features
+- **Workout Logging** – View exercise name, category etc. Add exercises with sets, reps.  
+- **Workout History** – Review previous workouts and track progress  
+- **Exercise Library** – Fetch exercises with descriptions and images from the **Wger API**  
+- **User Profile** – Save your name and profile picture for personalization  
+- **Modern UI** – Clean and responsive design for mobile and desktop  
+- **Dashboard** – Review of workouts and history, alongside links to navigate to the pages. 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+- **Frontend:** React, React Router  
+- **State Management:** React Hooks (useState, useEffect)  
+- **API Integration:** [Wger API](https://wger.de/en/software/api)  
+- **Styling:** Tailwind CSS and External CSS 
+- **Tooling:** Node.js, npm  
+
+---
+
+## Project Structure
+fitness-tracker/
+│── src/
+│ │── assets (images, icons, etc.)
+│ ├── components/ 
+│ │ ├── # Dashboard, WorkoutLog, WorkoutHistory
+│ ├── services/ # API integration files (wgerApi.js)
+│ ├── App.js # Main app file with routing
+│ ├── index.js # Entry point
+│── package.json # Dependencies and scripts
+│── README.md # Documentation
+
+---
+
+## Getting Started
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Ogo43/fitness-tracker.git
+cd fitness-tracker
+npm install
+npm start
+
+
+## 📌 Usage
+
+1. **Open the app in your browser**  
+2. **Sign up or Log in from the home page, enter your name, email, profile picture etc.**  
+3. **Scroll down for exercises** from the Exercise Library  
+4. **Choose desired workouts and input sets, reps**  
+5. **Check your Workout History as well as Progress Chart** to stay on track  

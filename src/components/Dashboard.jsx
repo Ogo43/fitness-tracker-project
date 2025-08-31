@@ -12,7 +12,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [workoutHistory, setWorkoutHistory] = useState([]);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // Load recent exercises (WorkoutLog)
   useEffect(() => {
@@ -32,9 +32,13 @@ function Dashboard() {
 
   // logout handler
   const handleLogout = () => {
-    localStorage.clear(); // remove all user data
+    // remove all user data
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+
     navigate("/"); // redirect to HomePage
   };
+
   // Load Workout History from localStorage
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("completedWorkouts")) || [];
@@ -68,7 +72,9 @@ function Dashboard() {
       </div>
 
       {/* Recent Workouts */}
-      <h2 className="mb-[10px] font-semibold">Here’s a quick view of your recent workouts:</h2>
+      <h2 className="mb-[10px] font-semibold">
+        Here’s a quick view of your recent workouts:
+      </h2>
       {loading ? (
         <p className="text-gray-500">Loading exercises…</p>
       ) : (
@@ -89,13 +95,23 @@ function Dashboard() {
           <p className="text-gray-500">No completed workouts yet.</p>
         ) : (
           <ul className="space-y-3">
-            {workoutHistory.slice(-2).reverse().map((workout, index) => (
-              <li key={index} className="p-3 border rounded-lg shadow-sm bg-gray-50">
-                <strong className="block text-lg">{workout.name}</strong>
-                <em className="block text-sm text-gray-600">{workout.description}</em>
-                <span className="block text-xs text-gray-400">{workout.date}</span>
-              </li>
-            ))}
+            {workoutHistory
+              .slice(-2)
+              .reverse()
+              .map((workout, index) => (
+                <li
+                  key={index}
+                  className="p-3 border rounded-lg shadow-sm bg-gray-50"
+                >
+                  <strong className="block text-lg">{workout.name}</strong>
+                  <em className="block text-sm text-gray-600">
+                    {workout.description}
+                  </em>
+                  <span className="block text-xs text-gray-400">
+                    {workout.date}
+                  </span>
+                </li>
+              ))}
           </ul>
         )}
 
@@ -119,7 +135,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-
-
-
