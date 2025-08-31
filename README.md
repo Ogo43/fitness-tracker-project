@@ -39,6 +39,16 @@ fitness-tracker/
 
 ---
 
+## **Usage**
+
+1. **Open the app in your browser**  
+2. **Sign up or Log in from the home page, enter your name, email, profile picture etc.**  
+3. **Scroll down for exercises** from the Exercise Library  
+4. **Choose desired workouts and input sets, reps**  
+5. **Check your Workout History as well as Progress Chart** to stay on track   
+
+---
+
 ## Getting Started
 
 ### 1. Clone the Repository
@@ -48,11 +58,4 @@ cd fitness-tracker
 npm install
 npm start
 
-
-## 📌 Usage
-
-1. **Open the app in your browser**  
-2. **Sign up or Log in from the home page, enter your name, email, profile picture etc.**  
-3. **Scroll down for exercises** from the Exercise Library  
-4. **Choose desired workouts and input sets, reps**  
-5. **Check your Workout History as well as Progress Chart** to stay on track  
+ 
